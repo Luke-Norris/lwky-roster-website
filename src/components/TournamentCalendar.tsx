@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { TournamentEvent } from '../data/events.ts'
+import { SITE_CONFIG } from '../data/config.ts'
+import DiscordIcon from './DiscordIcon.tsx'
 
 interface TournamentCalendarProps {
   events: TournamentEvent[]
@@ -140,6 +142,19 @@ export default function TournamentCalendar({ events, isOpen, onClose }: Tourname
                 </motion.div>
               )}
             </AnimatePresence>
+
+            <div className="calendar-discord-prompt">
+              <p>Sign up for tournaments in our Discord</p>
+              <a
+                href={SITE_CONFIG.discordLink}
+                className="btn-discord calendar-discord-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <DiscordIcon size={18} />
+                Join Discord to Register
+              </a>
+            </div>
 
             <button className="calendar-close" onClick={onClose}>Close</button>
           </motion.div>

@@ -104,10 +104,72 @@
   margin: 0 auto;
 }
 
+.graveyard-gallery--preview {
+  position: relative;
+}
+
 .graveyard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+}
+
+.graveyard-grid--disabled {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.25;
+  filter: blur(2px) grayscale(0.5);
+}
+
+/* ── Coming Soon Overlay ────────────────────────── */
+
+.graveyard-coming-soon-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.graveyard-coming-soon-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.graveyard-coming-soon-icon {
+  color: var(--graveyard-accent);
+  opacity: 0.7;
+}
+
+.graveyard-coming-soon-title {
+  font-family: var(--font-brand);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #fff 0%, var(--graveyard-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.graveyard-coming-soon-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  max-width: 300px;
+  line-height: 1.5;
 }
 
 /* ── Tombstone Card ──────────────────────────── */
@@ -145,6 +207,17 @@
 
 .tombstone-card:hover::before {
   opacity: 1;
+}
+
+.tombstone-card--disabled {
+  cursor: default;
+}
+
+.tombstone-card--disabled:hover {
+  border-color: var(--border);
+  background: var(--bg-card);
+  transform: none;
+  box-shadow: none;
 }
 
 .tombstone-top {
