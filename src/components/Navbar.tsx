@@ -17,7 +17,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Roster', href: '#roster' },
   { label: 'Tournaments', href: '#tournaments' },
   { label: 'Community', href: '#community' },
-  { label: 'LWKY Studios', href: '#studios' },
+  { label: 'LWKY Studios', href: '/studios', isRoute: true },
   { label: 'The Graveyard', href: '/graveyard', isRoute: true },
 ]
 
@@ -69,7 +69,10 @@ export default function Navbar() {
         {NAV_ITEMS.map((item) =>
           item.isRoute ? (
             <li key={item.label}>
-              <Link to={item.href} className="navbar-graveyard-link">
+              <Link
+                to={item.href}
+                className={item.href === '/graveyard' ? 'navbar-graveyard-link' : ''}
+              >
                 {item.label}
               </Link>
             </li>
@@ -140,7 +143,7 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.href}
-                  className="navbar-mobile-link navbar-graveyard-link"
+                  className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}

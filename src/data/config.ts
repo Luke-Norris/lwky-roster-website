@@ -10,7 +10,12 @@ export const SITE_CONFIG = {
   // Place your audio file at public/audio/ambient.mp3 then set this:
   // backgroundAudio: '/audio/ambient.mp3',
   backgroundAudio: '',
-  // Place 9:16 portrait videos in public/videos/ then populate:
-  // heroVideos: ['/videos/bg1.mp4', '/videos/bg2.mp4', ...],
-  heroVideos: [] as string[],
+  heroVideos: [
+    '/videos/1v1 xavier_withblur.mp4',
+    '/videos/fnTiktokAutotestv3 - Copy.mp4',
+    '/videos/grapmade.mp4',
+    '/videos/impulsive_editmp4.mp4',
+    '/videos/ruthless-assassin-clipped.mp4',
+    '/videos/ttio3_reup.mp4',
+  ],
 }
