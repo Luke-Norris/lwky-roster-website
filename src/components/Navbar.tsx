@@ -143,10 +143,16 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.href}
-                  className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''}`}
+                  className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''} ${item.href === '/studios' ? 'navbar-studios-link' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
+                  {item.href === '/studios' && (
+                    <span className="navbar-mobile-badge">Coming Soon</span>
+                  )}
+                  {item.href === '/graveyard' && (
+                    <span className="navbar-mobile-badge navbar-mobile-badge--graveyard">Highlight Clips</span>
+                  )}
                 </Link>
               ) : (
                 <a

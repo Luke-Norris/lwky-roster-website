@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 
 interface VideoBackgroundProps {
   videos: string[]
@@ -8,26 +8,43 @@ export default function VideoBackground({ videos }: VideoBackgroundProps) {
   const stripRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
 
-  const allVideos = [...videos, ...videos]
+  // Cap at 4 videos to keep GPU decoding manageable (8 elements total with duplication)
+  const limitedVideos = videos.slice(0, 4)
+  const allVideos = [...limitedVideos, ...limitedVideos]
 
+  const measureStrip = useCallback(() => {
+    if (!stripRef.current) return
+    const children = stripRef.current.children
+    const half = children.length / 2
+    let singleSetWidth = 0
+    for (let i = 0; i < half; i++) {
+      singleSetWidth += (children[i] as HTMLElement).offsetWidth
+    }
+    // Account for gap between items (1rem = 16px)
+    singleSetWidth += half * 16
+    stripRef.current.style.setProperty('--strip-width', `${singleSetWidth}px`)
+  }, [])
+
+  // Measure strip width after videos have loaded their dimensions
   useEffect(() => {
     if (!stripRef.current) return
-    const observer = new ResizeObserver(() => {
-      if (stripRef.current) {
-        const singleSetWidth = stripRef.current.scrollWidth / 2
-        stripRef.current.style.setProperty('--strip-width', `${singleSetWidth}px`)
-      }
-    })
-    observer.observe(stripRef.current)
-    return () => observer.disconnect()
-  }, [videos])
+    const timer = setTimeout(measureStrip, 800)
+    const ro = new ResizeObserver(measureStrip)
+    ro.observe(stripRef.current)
+    return () => {
+      clearTimeout(timer)
+      ro.disconnect()
+    }
+  }, [measureStrip])
 
+  // Pause/resume videos based on hero visibility
   useEffect(() => {
     if (!heroRef.current) return
-    const videos = heroRef.current.querySelectorAll('video')
+    const videoEls = heroRef.current.querySelectorAll('video')
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        videos.forEach((v) => {
+        videoEls.forEach((v) => {
           if (entry.isIntersecting) {
             v.play().catch(() => {})
           } else {
@@ -35,7 +52,7 @@ export default function VideoBackground({ videos }: VideoBackgroundProps) {
           }
         })
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     )
     observer.observe(heroRef.current)
     return () => observer.disconnect()
@@ -53,7 +70,7 @@ export default function VideoBackground({ videos }: VideoBackgroundProps) {
             loop
             muted
             playsInline
-            preload={i < 4 ? 'auto' : 'metadata'}
+            preload={i < 3 ? 'auto' : 'none'}
           />
         ))}
       </div>

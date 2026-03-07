@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { EVENTS } from '../data/events.ts'
+import { motion, AnimatePresence } from 'framer-motion'
+import { EVENTS, type TournamentEvent } from '../data/events.ts'
 import TournamentCalendar from './TournamentCalendar.tsx'
 import { SITE_CONFIG } from '../data/config.ts'
 import DiscordIcon from './DiscordIcon.tsx'
@@ -18,8 +18,94 @@ const fadeUp = {
   }),
 }
 
+function TournamentPopup({
+  event,
+  onClose,
+}: {
+  event: TournamentEvent
+  onClose: () => void
+}) {
+  const eventDate = new Date(event.date + 'T00:00:00')
+  const formattedDate = eventDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+
+  return (
+    <motion.div
+      className="modal-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="tournament-popup"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="tournament-popup-badge">
+          <span className={`calendar-event-status calendar-event-status--${event.status}`}>
+            {event.status}
+          </span>
+        </div>
+
+        <h3 className="tournament-popup-title">{event.name}</h3>
+
+        <div className="tournament-popup-details">
+          <div className="tournament-popup-detail">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M2 6h12M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <span>{formattedDate}</span>
+          </div>
+          <div className="tournament-popup-detail">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M8 4.5V8l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>{event.time}</span>
+          </div>
+          {event.prizepool && (
+            <div className="tournament-popup-detail tournament-popup-detail--prize">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 2h8v4a4 4 0 01-8 0V2zM6 10v2M10 10v2M4 14h8M1 2h3M12 2h3M1 5h2M13 5h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>{event.prizepool} Prize Pool</span>
+            </div>
+          )}
+        </div>
+
+        <p className="tournament-popup-desc">{event.description}</p>
+
+        <div className="tournament-popup-cta">
+          <p>Sign up for this tournament in our Discord server</p>
+          <a
+            href={SITE_CONFIG.discordLink}
+            className="btn-discord tournament-popup-discord"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <DiscordIcon size={18} />
+            Join Discord to Register
+          </a>
+        </div>
+
+        <button className="calendar-close" onClick={onClose}>Close</button>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export default function Tournaments() {
   const [calendarOpen, setCalendarOpen] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState<TournamentEvent | null>(null)
   const upcomingEvents = EVENTS.filter((e) => e.status === 'upcoming').slice(0, 3)
 
   return (
@@ -57,12 +143,13 @@ export default function Tournaments() {
         {upcomingEvents.map((event, i) => (
           <motion.div
             key={event.id}
-            className="tournament-card"
+            className="tournament-card tournament-card--clickable"
             custom={i}
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
+            onClick={() => setSelectedEvent(event)}
           >
             <div className="tournament-card-date">
               <span className="tournament-card-month">
@@ -111,6 +198,15 @@ export default function Tournaments() {
         isOpen={calendarOpen}
         onClose={() => setCalendarOpen(false)}
       />
+
+      <AnimatePresence>
+        {selectedEvent && (
+          <TournamentPopup
+            event={selectedEvent}
+            onClose={() => setSelectedEvent(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   )
 }

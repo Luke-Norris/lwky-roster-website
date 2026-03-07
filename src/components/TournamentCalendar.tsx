@@ -62,20 +62,20 @@ export default function TournamentCalendar({ events, isOpen, onClose }: Tourname
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          <motion.div
-            className="modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
+        <motion.div
+          className="modal-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
           <motion.div
             className="calendar-modal"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="calendar-header">
               <button className="calendar-nav-btn" onClick={prevMonth}>
@@ -158,7 +158,7 @@ export default function TournamentCalendar({ events, isOpen, onClose }: Tourname
 
             <button className="calendar-close" onClick={onClose}>Close</button>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   )
