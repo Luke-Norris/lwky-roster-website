@@ -1,0 +1,27 @@
+import { lazy, Suspense } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar.tsx'
+import AudioPlayer from './components/AudioPlayer.tsx'
+import Home from './pages/Home.tsx'
+
+const Graveyard = lazy(() => import('./pages/Graveyard.tsx'))
+
+export default function App() {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/graveyard"
+          element={
+            <Suspense fallback={<div className="page-loading" />}>
+              <Graveyard />
+            </Suspense>
+          }
+        />
+      </Routes>
+      <AudioPlayer />
+    </>
+  )
+}
