@@ -48,7 +48,17 @@ export default function PlayerCard({ player, index }: PlayerCardProps) {
       </div>
       <div className="player-card-body">
         <h3 className="player-card-name">{player.name}</h3>
-        <span className="player-card-role">{player.role}</span>
+        <div className="player-card-badges">
+          <span className="player-card-role">{player.role}</span>
+          {player.badges?.map((badge) => (
+            <span
+              key={badge.label}
+              className={`player-card-role player-card-badge-${badge.variant ?? 'default'}`}
+            >
+              {badge.label}
+            </span>
+          ))}
+        </div>
         <div className="player-card-socials">
           {player.socials.discord && (
             <span className="player-social-link" title={`Discord: ${player.socials.discord}`}>

@@ -22,6 +22,9 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} LWKY. All rights reserved.
         </div>
       </div>
+      <div className="footer-developed">
+        Developed by kz
+      </div>
       <div className="footer-attribution">
         Icons from <a href="https://www.onlinewebfonts.com/icon" target="_blank" rel="noopener noreferrer">svg icons</a> — CC BY 4.0
       </div>

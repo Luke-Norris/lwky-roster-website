@@ -1,7 +1,13 @@
+export interface PlayerBadge {
+  label: string
+  variant?: 'default' | 'dev'
+}
+
 export interface Player {
   id: string
   name: string
   role: string
+  badges?: PlayerBadge[]
   avatar?: string
   socials: {
     discord?: string
@@ -52,6 +58,7 @@ export const PLAYERS: Player[] = [
     id: 'kz',
     name: 'LWKY kz',
     role: 'Founding Member',
+    badges: [{ label: 'Developer', variant: 'dev' }],
     avatar: '/images/kz.jpg',
     socials: {
       tiktok: 'https://www.tiktok.com/@kzownsu',

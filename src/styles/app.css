@@ -619,6 +619,14 @@ body::before {
   margin-bottom: 0.5rem;
 }
 
+.player-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
 .player-card-role {
   display: inline-block;
   font-size: 0.7rem;
@@ -629,7 +637,11 @@ body::before {
   background: rgba(88, 101, 242, 0.1);
   padding: 0.3rem 0.75rem;
   border-radius: 6px;
-  margin-bottom: 1rem;
+}
+
+.player-card-badge-dev {
+  color: #43b581;
+  background: rgba(67, 181, 129, 0.12);
 }
 
 .player-card-socials {
@@ -1457,11 +1469,19 @@ body::before {
   color: var(--text-muted);
 }
 
+.footer-developed {
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(67, 181, 129, 0.5);
+  margin-top: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
 .footer-attribution {
   text-align: center;
   font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.12);
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   letter-spacing: 0.02em;
 }
 
