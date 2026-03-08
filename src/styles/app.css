@@ -352,62 +352,70 @@ body::before {
   contain: strict;
 }
 
-.video-bg-fullscreen {
-  position: absolute;
-  inset: 0;
-  width: 100%;
+.video-bg-strip {
+  display: flex;
+  gap: 1rem;
   height: 100%;
+  will-change: transform;
+  animation: scroll-videos 80s linear infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+@keyframes scroll-videos {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(calc(var(--strip-width, 50%) * -1), 0, 0); }
+}
+
+.video-bg-slot {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 9/16;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.video-bg-item {
+  height: 100%;
+  width: 100%;
   object-fit: cover;
   transform: translateZ(0);
-  will-change: transform, opacity, filter;
-  transition: opacity 1.2s ease, filter 1.2s ease, transform 1.2s ease;
+  will-change: opacity, filter;
+  transition: opacity 0.9s ease, filter 0.9s ease;
   opacity: 1;
   filter: blur(0px) brightness(1);
 }
 
-/* Active video exiting — blur out and slide left */
-.video-bg-fullscreen.video-exit {
-  opacity: 0;
-  filter: blur(12px) brightness(0.4);
-  transform: translateX(-8%) scale(1.02);
+/* Video blurs out before swapping source */
+.video-bg-item.video-slot-exit {
+  opacity: 0.2;
+  filter: blur(10px) brightness(0.3);
 }
 
-/* Next video entering — starts blurred and offset right */
-.video-bg-fullscreen.video-enter {
-  opacity: 0;
-  filter: blur(16px) brightness(0.3);
-  transform: translateX(8%) scale(1.02);
-}
-
-/* Next video entering active state — resolves to normal */
-.video-bg-fullscreen.video-enter-active {
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-  transform: translateX(0%) scale(1);
-}
-
-/* Brief flicker/flash overlay during transition */
-.video-flicker {
+/* Per-slot flicker overlay during transition */
+.video-slot-flicker {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
-  animation: flicker-pulse 1.2s ease-out forwards;
+  border-radius: 12px;
+  animation: slot-flicker 0.9s ease-out forwards;
 }
 
-@keyframes flicker-pulse {
+@keyframes slot-flicker {
   0% { background: rgba(255, 255, 255, 0); }
-  8% { background: rgba(255, 255, 255, 0.06); }
-  16% { background: rgba(255, 255, 255, 0); }
-  24% { background: rgba(255, 255, 255, 0.03); }
-  32% { background: rgba(255, 255, 255, 0); }
+  10% { background: rgba(255, 255, 255, 0.08); }
+  20% { background: rgba(255, 255, 255, 0); }
+  30% { background: rgba(255, 255, 255, 0.04); }
+  40% { background: rgba(255, 255, 255, 0); }
   100% { background: rgba(255, 255, 255, 0); }
 }
 
 .video-bg-overlay {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 1;
   background: rgba(10, 10, 10, 0.75);
 }
 
