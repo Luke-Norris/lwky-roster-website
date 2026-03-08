@@ -11,7 +11,6 @@ export const SITE_CONFIG = {
   // backgroundAudio: '/audio/ambient.mp3',
   backgroundAudio: '',
   heroVideos: [
-    '/videos/1v1 xavier_withblur.mp4',
     '/videos/fnTiktokAutotestv3 - Copy.mp4',
     '/videos/grapmade.mp4',
     '/videos/impulsive_editmp4.mp4',

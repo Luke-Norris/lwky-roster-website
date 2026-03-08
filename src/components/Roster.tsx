@@ -1,9 +1,21 @@
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import PlayerCard from './PlayerCard.tsx'
 import { PLAYERS } from '../data/players.ts'
 import { SITE_CONFIG } from '../data/config.ts'
 
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
 export default function Roster() {
+  const shuffledPlayers = useMemo(() => shuffleArray(PLAYERS), [])
+
   return (
     <section className="section roster-section" id="roster">
       <div className="section-header-center">
@@ -35,7 +47,7 @@ export default function Roster() {
         </motion.p>
       </div>
       <div className="roster-grid">
-        {PLAYERS.map((player, i) => (
+        {shuffledPlayers.map((player, i) => (
           <PlayerCard key={player.id} player={player} index={i} />
         ))}
       </div>
