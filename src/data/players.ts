@@ -20,7 +20,7 @@ export interface Player {
 export const PLAYERS: Player[] = [
   {
     id: 'assass1n',
-    name: 'LWKY assass1n',
+    name: 'assass1n',
     role: 'Founding Member',
     avatar: '/images/assass1n.png',
     socials: {
@@ -31,14 +31,14 @@ export const PLAYERS: Player[] = [
   },
   {
     id: 'rosa',
-    name: 'LWKY rosa',
+    name: 'rosa',
     role: 'Founding Member',
     avatar: '/images/rosa.jpg',
     socials: {},
   },
   {
     id: 'cade',
-    name: 'LWKY cade',
+    name: 'cade',
     role: 'Founding Member',
     avatar: '/images/cade.jpg',
     socials: {
@@ -47,7 +47,7 @@ export const PLAYERS: Player[] = [
   },
   {
     id: 'drizi',
-    name: 'LWKY drizi',
+    name: 'drizi',
     role: 'Founding Member',
     avatar: '/images/drizi.webp',
     socials: {
@@ -56,9 +56,9 @@ export const PLAYERS: Player[] = [
   },
   {
     id: 'kz',
-    name: 'LWKY kz',
+    name: 'kz',
     role: 'Founding Member',
-    badges: [{ label: 'Developer', variant: 'dev' }],
+    badges: [{ label: 'Dev', variant: 'dev' }],
     avatar: '/images/kz.jpg',
     socials: {
       tiktok: 'https://www.tiktok.com/@kzownsu',

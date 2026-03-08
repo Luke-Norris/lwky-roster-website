@@ -613,15 +613,26 @@ body::before {
 }
 
 .player-card-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
 }
 
+.player-card-logo {
+  height: 1.1em;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .player-card-badges {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 0.4rem;
   margin-bottom: 1rem;

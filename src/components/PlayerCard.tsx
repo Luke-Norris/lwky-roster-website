@@ -47,7 +47,10 @@ export default function PlayerCard({ player, index }: PlayerCardProps) {
         <div className="player-card-glow" />
       </div>
       <div className="player-card-body">
-        <h3 className="player-card-name">{player.name}</h3>
+        <h3 className="player-card-name">
+          <img src="/images/logo.png" alt="LWKY" className="player-card-logo" />
+          {player.name}
+        </h3>
         <div className="player-card-badges">
           <span className="player-card-role">{player.role}</span>
           {player.badges?.map((badge) => (
