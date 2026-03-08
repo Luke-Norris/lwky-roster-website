@@ -7,48 +7,54 @@ export interface Player {
     discord?: string
     tiktok?: string
     youtube?: string
+    twitch?: string
   }
 }
 
 export const PLAYERS: Player[] = [
   {
-    id: 'player-1',
-    name: 'Player One',
-    role: 'IGL / Fragger',
+    id: 'assass1n',
+    name: 'LWKY assass1n',
+    role: 'Founding Member',
+    avatar: '/images/assass1n.png',
     socials: {
-      tiktok: 'https://tiktok.com/@player1',
+      tiktok: 'https://www.tiktok.com/@assass1nzb',
+      twitch: 'https://www.twitch.tv/lwkyassass1n',
+      youtube: 'https://www.youtube.com/@PTO_assass1n',
     },
   },
   {
-    id: 'player-2',
-    name: 'Player Two',
-    role: 'Support',
+    id: 'rosa',
+    name: 'LWKY rosa',
+    role: 'Founding Member',
+    avatar: '/images/rosa.jpg',
+    socials: {},
+  },
+  {
+    id: 'cade',
+    name: 'LWKY cade',
+    role: 'Founding Member',
+    avatar: '/images/cade.jpg',
     socials: {
-      tiktok: 'https://tiktok.com/@player2',
+      tiktok: 'https://www.tiktok.com/@followcadeontop1?is_from_webapp=1&sender_device=pc',
     },
   },
   {
-    id: 'player-3',
-    name: 'Player Three',
-    role: 'Fragger',
+    id: 'drizi',
+    name: 'LWKY drizi',
+    role: 'Founding Member',
+    avatar: '/images/drizi.webp',
     socials: {
-      tiktok: 'https://tiktok.com/@player3',
+      tiktok: 'https://www.tiktok.com/@lwky_drizi?_r=1&_t=ZP-94UXaB3LgNy',
     },
   },
   {
-    id: 'player-4',
-    name: 'Player Four',
-    role: 'Flex',
+    id: 'kz',
+    name: 'LWKY kz',
+    role: 'Founding Member',
+    avatar: '/images/kz.jpg',
     socials: {
-      tiktok: 'https://tiktok.com/@player4',
-    },
-  },
-  {
-    id: 'player-5',
-    name: 'Player Five',
-    role: 'Fragger',
-    socials: {
-      tiktok: 'https://tiktok.com/@player5',
+      tiktok: 'https://www.tiktok.com/@kzownsu',
     },
   },
 ]

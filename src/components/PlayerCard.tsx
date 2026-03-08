@@ -3,6 +3,7 @@ import type { Player } from '../data/players.ts'
 import DiscordIcon from './DiscordIcon.tsx'
 import TikTokIcon from './TikTokIcon.tsx'
 import YouTubeIcon from './YouTubeIcon.tsx'
+import TwitchIcon from './TwitchIcon.tsx'
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -62,6 +63,11 @@ export default function PlayerCard({ player, index }: PlayerCardProps) {
           {player.socials.youtube && (
             <a href={player.socials.youtube} target="_blank" rel="noopener noreferrer" className="player-social-link" title="YouTube">
               <YouTubeIcon size={18} />
+            </a>
+          )}
+          {player.socials.twitch && (
+            <a href={player.socials.twitch} target="_blank" rel="noopener noreferrer" className="player-social-link" title="Twitch">
+              <TwitchIcon size={18} />
             </a>
           )}
         </div>

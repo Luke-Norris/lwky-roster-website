@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import PlayerCard from './PlayerCard.tsx'
 import { PLAYERS } from '../data/players.ts'
+import { SITE_CONFIG } from '../data/config.ts'
 
 export default function Roster() {
   return (
@@ -38,6 +39,18 @@ export default function Roster() {
           <PlayerCard key={player.id} player={player} index={i} />
         ))}
       </div>
+      <motion.p
+        className="roster-discord-note"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        Want to see the full crew?{' '}
+        <a href={SITE_CONFIG.discordLink} target="_blank" rel="noopener noreferrer">
+          Join our Discord
+        </a>
+      </motion.p>
     </section>
   )
 }
