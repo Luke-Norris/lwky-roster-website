@@ -352,62 +352,39 @@ body::before {
   contain: strict;
 }
 
-.video-bg-fullscreen {
-  position: absolute;
-  inset: 0;
-  width: 100%;
+.video-bg-strip {
+  display: flex;
+  gap: 1rem;
   height: 100%;
+  will-change: transform;
+  animation: scroll-videos 80s linear infinite;
+  /* Force GPU compositing layer */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+@keyframes scroll-videos {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(calc(var(--strip-width, 50%) * -1), 0, 0); }
+}
+
+.video-bg-item {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 9/16;
   object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+  /* Each video gets its own compositing layer */
   transform: translateZ(0);
-  will-change: transform, opacity, filter;
-  transition: opacity 1.2s ease, filter 1.2s ease, transform 1.2s ease;
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-}
-
-/* Active video exiting — blur out and slide left */
-.video-bg-fullscreen.video-exit {
-  opacity: 0;
-  filter: blur(12px) brightness(0.4);
-  transform: translateX(-8%) scale(1.02);
-}
-
-/* Next video entering — starts blurred and offset right */
-.video-bg-fullscreen.video-enter {
-  opacity: 0;
-  filter: blur(16px) brightness(0.3);
-  transform: translateX(8%) scale(1.02);
-}
-
-/* Next video entering active state — resolves to normal */
-.video-bg-fullscreen.video-enter-active {
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-  transform: translateX(0%) scale(1);
-}
-
-/* Brief flicker/flash overlay during transition */
-.video-flicker {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  animation: flicker-pulse 1.2s ease-out forwards;
-}
-
-@keyframes flicker-pulse {
-  0% { background: rgba(255, 255, 255, 0); }
-  8% { background: rgba(255, 255, 255, 0.06); }
-  16% { background: rgba(255, 255, 255, 0); }
-  24% { background: rgba(255, 255, 255, 0.03); }
-  32% { background: rgba(255, 255, 255, 0); }
-  100% { background: rgba(255, 255, 255, 0); }
+  will-change: contents;
+  image-rendering: auto;
 }
 
 .video-bg-overlay {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 1;
   background: rgba(10, 10, 10, 0.75);
 }
 

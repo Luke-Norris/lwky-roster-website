@@ -1,88 +1,50 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 
 interface VideoBackgroundProps {
   videos: string[]
 }
 
 export default function VideoBackground({ videos }: VideoBackgroundProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [nextIndex, setNextIndex] = useState<number | null>(null)
-  const [transitioning, setTransitioning] = useState(false)
-  const activeVideoRef = useRef<HTMLVideoElement>(null)
-  const nextVideoRef = useRef<HTMLVideoElement>(null)
-  const isVisibleRef = useRef(true)
+  const stripRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
 
+  // Cap at 6 videos to keep GPU decoding manageable (12 elements total with duplication)
   const limitedVideos = videos.slice(0, 6)
+  const allVideos = [...limitedVideos, ...limitedVideos]
 
-  const startTransition = useCallback(() => {
-    if (transitioning || limitedVideos.length <= 1) return
-    const next = (activeIndex + 1) % limitedVideos.length
-    setNextIndex(next)
-    setTransitioning(true)
-  }, [activeIndex, transitioning, limitedVideos.length])
-
-  // When next video is ready, begin the crossfade
-  const handleNextCanPlay = useCallback(() => {
-    if (!transitioning || nextIndex === null) return
-    if (nextVideoRef.current) {
-      nextVideoRef.current.play().catch(() => {})
+  const measureStrip = useCallback(() => {
+    if (!stripRef.current) return
+    const children = stripRef.current.children
+    const half = children.length / 2
+    let singleSetWidth = 0
+    for (let i = 0; i < half; i++) {
+      singleSetWidth += (children[i] as HTMLElement).offsetWidth
     }
-  }, [transitioning, nextIndex])
+    // Account for gap between items (1rem = 16px)
+    singleSetWidth += half * 16
+    stripRef.current.style.setProperty('--strip-width', `${singleSetWidth}px`)
+  }, [])
 
-  // After transition animation completes, swap active
+  // Measure strip width after videos have loaded their dimensions
   useEffect(() => {
-    if (!transitioning) return
-    const timer = setTimeout(() => {
-      setActiveIndex(nextIndex!)
-      setNextIndex(null)
-      setTransitioning(false)
-    }, 1200) // match CSS transition duration
-    return () => clearTimeout(timer)
-  }, [transitioning, nextIndex])
-
-  // Listen for video ending to trigger transition
-  useEffect(() => {
-    const video = activeVideoRef.current
-    if (!video) return
-
-    const handleEnded = () => {
-      if (isVisibleRef.current) {
-        startTransition()
-      }
+    if (!stripRef.current) return
+    const timer = setTimeout(measureStrip, 800)
+    const ro = new ResizeObserver(measureStrip)
+    ro.observe(stripRef.current)
+    return () => {
+      clearTimeout(timer)
+      ro.disconnect()
     }
+  }, [measureStrip])
 
-    video.addEventListener('ended', handleEnded)
-    return () => video.removeEventListener('ended', handleEnded)
-  }, [activeIndex, startTransition])
-
-  // Fallback: if video doesn't fire ended (some browsers loop), use timeupdate
+  // Pause/resume videos based on hero visibility
   useEffect(() => {
-    const video = activeVideoRef.current
-    if (!video) return
-
-    const handleTimeUpdate = () => {
-      // Trigger transition when within 0.3s of the end
-      if (video.duration && video.currentTime >= video.duration - 0.3) {
-        if (isVisibleRef.current && !transitioning) {
-          startTransition()
-        }
-      }
-    }
-
-    video.addEventListener('timeupdate', handleTimeUpdate)
-    return () => video.removeEventListener('timeupdate', handleTimeUpdate)
-  }, [activeIndex, startTransition, transitioning])
-
-  // Pause/resume based on hero visibility
-  useEffect(() => {
-    if (!containerRef.current) return
+    if (!heroRef.current) return
+    const videoEls = heroRef.current.querySelectorAll('video')
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting
-        const videos = containerRef.current?.querySelectorAll('video')
-        videos?.forEach((v) => {
+        videoEls.forEach((v) => {
           if (entry.isIntersecting) {
             v.play().catch(() => {})
           } else {
@@ -92,41 +54,26 @@ export default function VideoBackground({ videos }: VideoBackgroundProps) {
       },
       { threshold: 0.05 }
     )
-    observer.observe(containerRef.current)
+    observer.observe(heroRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <div className="video-bg" ref={containerRef}>
-      {/* Active video */}
-      <video
-        ref={activeVideoRef}
-        key={`active-${activeIndex}`}
-        className={`video-bg-fullscreen ${transitioning ? 'video-exit' : ''}`}
-        src={limitedVideos[activeIndex]}
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-      />
-
-      {/* Next video (fades in during transition) */}
-      {nextIndex !== null && (
-        <video
-          ref={nextVideoRef}
-          key={`next-${nextIndex}`}
-          className={`video-bg-fullscreen video-enter ${transitioning ? 'video-enter-active' : ''}`}
-          src={limitedVideos[nextIndex]}
-          muted
-          playsInline
-          preload="auto"
-          onCanPlay={handleNextCanPlay}
-        />
-      )}
-
-      {/* Flicker overlay during transition */}
-      {transitioning && <div className="video-flicker" />}
-
+    <div className="video-bg" ref={heroRef}>
+      <div className="video-bg-strip" ref={stripRef}>
+        {allVideos.map((src, i) => (
+          <video
+            key={`${src}-${i}`}
+            className="video-bg-item"
+            src={src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload={i < 3 ? 'auto' : 'none'}
+          />
+        ))}
+      </div>
       <div className="video-bg-overlay" />
     </div>
   )
