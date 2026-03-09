@@ -15,8 +15,8 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '#home' },
   { label: 'Roster', href: '#roster' },
-  { label: 'Tournaments', href: '#tournaments' },
   { label: 'Community', href: '#community' },
+  { label: 'Events', href: '/events', isRoute: true },
   { label: 'LWKY Studios', href: '/studios', isRoute: true },
   { label: 'The Graveyard', href: '/graveyard', isRoute: true },
 ]
@@ -143,7 +143,7 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.href}
-                  className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''} ${item.href === '/studios' ? 'navbar-studios-link' : ''}`}
+                  className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''} ${item.href === '/studios' ? 'navbar-studios-link' : ''} ${item.href === '/events' ? 'navbar-tournaments-link' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -152,6 +152,9 @@ export default function Navbar() {
                   )}
                   {item.href === '/graveyard' && (
                     <span className="navbar-mobile-badge navbar-mobile-badge--graveyard">Highlight Clips</span>
+                  )}
+                  {item.href === '/events' && (
+                    <span className="navbar-mobile-badge navbar-mobile-badge--tournaments">Brackets</span>
                   )}
                 </Link>
               ) : (

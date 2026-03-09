@@ -15,6 +15,6 @@ export const EVENTS: TournamentEvent[] = [
     date: '2026-03-08',
     time: '6:00 PM EST',
     description: 'Pump and Hammer. Best of 3. Any cover. Double movement. Hosted by Male Pepe and Female Pepe.',
-    status: 'upcoming',
+    status: 'completed',
   },
 ]

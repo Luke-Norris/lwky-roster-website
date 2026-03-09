@@ -6,6 +6,7 @@ import Home from './pages/Home.tsx'
 
 const Graveyard = lazy(() => import('./pages/Graveyard.tsx'))
 const StudiosPage = lazy(() => import('./pages/Studios.tsx'))
+const EventsPage = lazy(() => import('./pages/Events.tsx'))
 
 export default function App() {
   return (
@@ -26,6 +27,14 @@ export default function App() {
           element={
             <Suspense fallback={<div className="page-loading" />}>
               <StudiosPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <Suspense fallback={<div className="page-loading" />}>
+              <EventsPage />
             </Suspense>
           }
         />

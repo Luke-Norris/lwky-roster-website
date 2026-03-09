@@ -4,6 +4,89 @@
   min-height: 100vh;
   background: var(--bg-primary);
   position: relative;
+  overflow: hidden;
+}
+
+/* ── Tombstone silhouettes ───────────────────── */
+
+.graveyard-tombs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+}
+
+.graveyard-tombs svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Animated fog layers ─────────────────────── */
+
+.graveyard-fog {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.graveyard-fog-layer {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 0, 0, 0.02) 10%,
+    rgba(200, 200, 200, 0.03) 20%,
+    transparent 30%,
+    rgba(139, 0, 0, 0.015) 45%,
+    transparent 60%
+  );
+  filter: blur(30px);
+  animation: fogDrift 40s linear infinite;
+}
+
+.graveyard-fog-layer:nth-child(2) {
+  height: 60%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.015) 15%,
+    transparent 25%,
+    rgba(139, 0, 0, 0.01) 40%,
+    transparent 55%
+  );
+  filter: blur(40px);
+  animation: fogDrift 60s linear infinite reverse;
+  opacity: 0.8;
+}
+
+.graveyard-fog-layer:nth-child(3) {
+  height: 30%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 20%,
+    transparent 35%
+  );
+  filter: blur(20px);
+  animation: fogDrift 25s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes fogDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ── Graveyard Nav ────────────────────────────── */
