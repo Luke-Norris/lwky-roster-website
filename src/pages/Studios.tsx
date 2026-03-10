@@ -15,29 +15,9 @@ const MAPS: MapData[] = [
     description: 'Fast-paced zone wars set in a reimagined Tilted Towers. Shrinking storms and competitive loadouts.',
   },
   {
-    title: 'Neon Drift',
-    genre: 'Racing',
-    description: 'High-speed drift racing through neon-lit cityscapes. Boost pads, shortcuts, and tight corners.',
-  },
-  {
-    title: 'Skyline FFA',
-    genre: 'Free For All',
-    description: 'Rooftop free-for-all combat above the clouds. Verticality meets precision in this aerial arena.',
-  },
-  {
-    title: 'The Vault',
-    genre: 'Escape Room',
-    description: 'A multi-stage puzzle escape set deep underground. Solve, survive, and escape before time runs out.',
-  },
-  {
     title: 'Storm Surge',
     genre: 'Box Fight',
     description: 'Competitive box fighting with dynamic storm mechanics. Designed for scrims and ranked practice.',
-  },
-  {
-    title: 'Paradise Lost',
-    genre: 'Adventure',
-    description: 'Explore an abandoned tropical island with hidden secrets, boss fights, and a branching storyline.',
   },
 ]
 

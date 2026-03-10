@@ -10,6 +10,7 @@ interface NavItem {
   label: string
   href: string
   isRoute?: boolean
+  useLogo?: boolean
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -17,9 +18,21 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Roster', href: '#roster' },
   { label: 'Community', href: '#community' },
   { label: 'Events', href: '/events', isRoute: true },
-  { label: 'LWKY Studios', href: '/studios', isRoute: true },
+  { label: 'Studios', href: '/studios', isRoute: true, useLogo: true },
   { label: 'The Graveyard', href: '/graveyard', isRoute: true },
 ]
+
+function NavLabel({ item }: { item: NavItem }) {
+  if (item.useLogo) {
+    return (
+      <span className="nav-logo-label">
+        <img src="/images/logo.png" alt="LWKY" className="nav-logo-inline" />
+        {item.label}
+      </span>
+    )
+  }
+  return <>{item.label}</>
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -73,7 +86,7 @@ export default function Navbar() {
                 to={item.href}
                 className={item.href === '/graveyard' ? 'navbar-graveyard-link' : ''}
               >
-                {item.label}
+                <NavLabel item={item} />
               </Link>
             </li>
           ) : (
@@ -85,7 +98,7 @@ export default function Navbar() {
                   handleNavClick(item)
                 }}
               >
-                {item.label}
+                <NavLabel item={item} />
               </a>
             </li>
           )
@@ -146,7 +159,7 @@ export default function Navbar() {
                   className={`navbar-mobile-link ${item.href === '/graveyard' ? 'navbar-graveyard-link' : ''} ${item.href === '/studios' ? 'navbar-studios-link' : ''} ${item.href === '/events' ? 'navbar-tournaments-link' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
-                  {item.label}
+                  <NavLabel item={item} />
                   {item.href === '/studios' && (
                     <span className="navbar-mobile-badge">Coming Soon</span>
                   )}
@@ -167,7 +180,7 @@ export default function Navbar() {
                     handleNavClick(item)
                   }}
                 >
-                  {item.label}
+                  <NavLabel item={item} />
                 </a>
               )
             )}

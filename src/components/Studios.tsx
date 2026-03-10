@@ -16,7 +16,10 @@ export default function Studios() {
             <span className="studios-teaser-dot" />
             In Development
           </div>
-          <h2 className="studios-teaser-title">LWKY Studios</h2>
+          <h2 className="studios-teaser-title">
+            <img src="/images/logo.png" alt="LWKY" className="studios-teaser-logo" />
+            Studios
+          </h2>
           <p className="studios-teaser-desc">
             We're building high-quality, competition-grade Fortnite Creative maps.
             All LWKY tournaments will be hosted exclusively on our maps.

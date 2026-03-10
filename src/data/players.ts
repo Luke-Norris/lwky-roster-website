@@ -64,4 +64,29 @@ export const PLAYERS: Player[] = [
       tiktok: 'https://www.tiktok.com/@kzownsu',
     },
   },
+  {
+    id: 'pepe',
+    name: 'pepe',
+    role: 'Founding Member',
+    avatar: '/images/pepe.png',
+    socials: {},
+  },
+  {
+    id: 'fearz',
+    name: 'Fearz',
+    role: 'Member',
+    avatar: '/images/fearz.jpg',
+    socials: {
+      tiktok: 'https://www.tiktok.com/@exoticfearz1',
+    },
+  },
+  {
+    id: 'xtyreq',
+    name: 'xTyreq',
+    role: 'Member',
+    avatar: '/images/xtyreq.png',
+    socials: {
+      tiktok: 'https://www.tiktok.com/@xtyreq1',
+    },
+  },
 ]

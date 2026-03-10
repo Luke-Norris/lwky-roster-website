@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import PlayerCard from './PlayerCard.tsx'
-import { PLAYERS } from '../data/players.ts'
+import { PLAYERS, type Player } from '../data/players.ts'
 import { SITE_CONFIG } from '../data/config.ts'
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -13,8 +13,21 @@ function shuffleArray<T>(arr: T[]): T[] {
   return shuffled
 }
 
+function shuffleWithPair(players: Player[]): Player[] {
+  const cade = players.find(p => p.id === 'cade')!
+  const kz = players.find(p => p.id === 'kz')!
+  const others = shuffleArray(players.filter(p => p.id !== 'cade' && p.id !== 'kz'))
+
+  // Positions 0 and 6 keep the pair on the same row for 2/3/4/5 column grids
+  const validPositions = [0, 6].filter(p => p <= others.length)
+  const pairStart = validPositions[Math.floor(Math.random() * validPositions.length)]
+
+  others.splice(pairStart, 0, cade, kz)
+  return others
+}
+
 export default function Roster() {
-  const shuffledPlayers = useMemo(() => shuffleArray(PLAYERS), [])
+  const shuffledPlayers = useMemo(() => shuffleWithPair(PLAYERS), [])
 
   return (
     <section className="section roster-section" id="roster">

@@ -510,7 +510,7 @@ body::before {
 /* ── Roster ─────────────────────────────────── */
 
 .roster-section {
-  max-width: 1600px;
+  max-width: 1200px;
   position: relative;
 }
 
@@ -528,8 +528,8 @@ body::before {
 
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
 }
 
 .roster-discord-note {
@@ -549,117 +549,120 @@ body::before {
   text-decoration: underline;
 }
 
-.player-card {
-  background: var(--bg-card);
+/* ── Player Tile ───────────────────────────── */
+
+.player-tile {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
+  background: var(--bg-card);
   transition: all 0.4s ease;
-  text-align: center;
-  position: relative;
+  cursor: default;
 }
 
-.player-card:hover {
+.player-tile:hover {
   border-color: rgba(var(--accent-rgb), 0.4);
-  background: var(--bg-card-hover);
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 60px rgba(var(--accent-rgb), 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(var(--accent-rgb), 0.06);
 }
 
-.player-card-avatar {
+.player-tile-image {
   width: 100%;
-  aspect-ratio: 3/4;
-  background: linear-gradient(180deg, #0d0d1a 0%, #111128 40%, #0a0a1e 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  aspect-ratio: 1;
   overflow: hidden;
   position: relative;
+  background: linear-gradient(180deg, #0d0d1a 0%, #111128 40%, #0a0a1e 100%);
 }
 
-.player-card-avatar img {
+.player-tile-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-.player-card:hover .player-card-avatar img {
-  transform: scale(1.05);
+.player-tile:hover .player-tile-image img {
+  transform: scale(1.06);
 }
 
-.player-card-avatar-placeholder {
+.player-tile-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted);
   opacity: 0.2;
 }
 
-.player-card-glow {
+.player-tile-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60%;
+  height: 50%;
   background: linear-gradient(to top, var(--bg-card) 0%, transparent 100%);
   pointer-events: none;
 }
 
-.player-card-body {
-  padding: 1.5rem 1.75rem 2rem;
+.player-tile-info {
+  padding: 1rem 1.25rem 1.25rem;
+  margin-top: -1.5rem;
   position: relative;
-  margin-top: -2rem;
+  text-align: center;
 }
 
-.player-card-name {
+.player-tile-name {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  font-size: 1.3rem;
+  gap: 0.35rem;
+  font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
-.player-card-logo {
-  height: 1.1em;
+.player-tile-logo {
+  height: 1em;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 
-.player-card-badges {
+.player-tile-badges {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
 }
 
-.player-card-role {
+.player-tile-role {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent);
   background: rgba(88, 101, 242, 0.1);
-  padding: 0.3rem 0.75rem;
-  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
 }
 
-.player-card-badge-dev {
+.player-tile-badge-dev {
   color: #43b581;
   background: rgba(67, 181, 129, 0.12);
 }
 
-.player-card-socials {
+.player-tile-socials {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .player-social-link {
@@ -674,6 +677,144 @@ body::before {
 .player-social-link:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Announcements ─────────────────────────── */
+
+.announcements-section {
+  position: relative;
+}
+
+.announcements-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.15), transparent);
+}
+
+.announcements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.announcement-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.announcement-card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+}
+
+.announcement-card--expanded {
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+.announcement-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.announcement-type-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(var(--accent-rgb), 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.announcement-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.announcement-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.announcement-card-summary {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.announcement-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.announcement-card-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.announcement-card-chevron {
+  color: var(--text-muted);
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.announcement-card-chevron--open {
+  transform: rotate(180deg);
+}
+
+.announcement-card-detail {
+  overflow: hidden;
+}
+
+.announcement-card-detail p {
+  padding: 0 1.5rem 1.25rem;
+  padding-left: calc(1.5rem + 36px + 1rem);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .announcement-card-header {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .announcement-card-meta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .announcement-card-detail p {
+    padding: 0 1rem 1rem;
+    padding-left: calc(1rem + 36px + 0.75rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .announcement-type-icon {
+    display: none;
+  }
+
+  .announcement-card-detail p {
+    padding-left: 1rem;
+  }
 }
 
 /* ── Tournaments ─────────────────────────────── */
@@ -1213,8 +1354,8 @@ body::before {
 .cta-banner-inner {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08) 0%, rgba(var(--accent-rgb), 0.02) 100%);
   border: 1px solid rgba(var(--accent-rgb), 0.15);
-  border-radius: 20px;
-  padding: 3.5rem;
+  border-radius: 16px;
+  padding: 2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -1243,14 +1384,14 @@ body::before {
 }
 
 .cta-banner-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   position: relative;
 }
 
 .cta-banner-desc {
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   max-width: 440px;
   line-height: 1.6;
@@ -1265,9 +1406,9 @@ body::before {
 }
 
 .cta-banner-server-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -1406,6 +1547,17 @@ body::before {
   letter-spacing: 0.03em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.studios-teaser-logo {
+  height: 1.2em;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(var(--accent-rgb), 0.15));
 }
 
 .studios-teaser-desc {
@@ -1505,6 +1657,19 @@ body::before {
   color: rgba(255, 255, 255, 0.3);
 }
 
+/* ── Nav logo inline (for "LWKY Studios" link) ── */
+
+.nav-logo-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.nav-logo-inline {
+  height: 14px;
+  width: auto;
+}
+
 /* ── Audio Player ────────────────────────────── */
 
 .audio-player {
@@ -1587,21 +1752,29 @@ body::before {
 
 @media (max-width: 1200px) {
   .roster-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .roster-section {
-    max-width: 700px;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .roster-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .roster-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 
-  .roster-section {
-    max-width: 400px;
+  .player-tile-info {
+    padding: 0.75rem 0.75rem 1rem;
+  }
+
+  .player-tile-name {
+    font-size: 0.95rem;
   }
 }
 
